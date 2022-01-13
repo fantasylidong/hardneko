@@ -33,12 +33,12 @@
 #define CLOSE_RANGE 100
 
 //ConVar
-ConVar hMaxSurvivors, hDeadBotTime, hSpecCheckInterval, 
+ConVar hMaxSurvivors, hMaxHuman, hDeadBotTime, hSpecCheckInterval, 
 	hFirstWeapon, hSecondWeapon, hThirdWeapon, hFourthWeapon, hFifthWeapon,
 	hRespawnHP, hRespawnBuffHP, hStripBotWeapons, hSpawnSurvivorsAtStart;
 
 //value
-int iMaxSurvivors, iDeadBotTime, g_iFirstWeapon, g_iSecondWeapon, g_iThirdWeapon, g_iFourthWeapon, g_iFifthWeapon,
+int iMaxSurvivors, iMaxHuman, iDeadBotTime, g_iFirstWeapon, g_iSecondWeapon, g_iThirdWeapon, g_iFourthWeapon, g_iFifthWeapon,
 	iRespawnHP, iRespawnBuffHP;
 static Handle hSetHumanSpec, hTakeOver;
 int g_iRoundStart, g_iPlayerSpawn, BufferHP = -1;
@@ -134,6 +134,7 @@ public void OnPluginStart()
 	RegConsoleCmd("sm_js", JoinTeam, "Attempt to join Survivors");
 	
 	// Register cvars
+	hMaxHuman	=  CreateConVar("l4d_multislots_max_human", "8", "Stop spawn  Survivor bots if numbers of human has exceeded the certain value. (others  real player have move to ob or infect)", CVAR_FLAGS, true, 4.0, true, 32.0);
 	hMaxSurvivors	= CreateConVar("l4d_multislots_max_survivors", "4", "Kick AI Survivor bots if numbers of survivors has exceeded the certain value. (does not kick real player, minimum is 4)", CVAR_FLAGS, true, 4.0, true, 32.0);
 	hStripBotWeapons = CreateConVar("l4d_multislots_bot_items_delete", "1", "Delete all items form survivor bots when they got kicked by this plugin. (0=off)", CVAR_FLAGS, true, 0.0, true, 1.0);
 	hDeadBotTime = CreateConVar("l4d_multislots_alive_bot_time", "100", "When 5+ new player joins the server but no any bot can be taken over, the player will appear as a dead survivor if survivors have left start safe area for at least X seconds. (0=Always spawn alive bot for new player)", CVAR_FLAGS, true, 0.0);
@@ -157,6 +158,7 @@ public void OnPluginStart()
 	}
 	
 	GetCvars();
+	hMaxHuman.AddChangeHook(ConVarChanged_Cvars);
 	hMaxSurvivors.AddChangeHook(ConVarChanged_Cvars);
 	hStripBotWeapons.AddChangeHook(ConVarChanged_Cvars);
 	hDeadBotTime.AddChangeHook(ConVarChanged_Cvars);
@@ -299,6 +301,7 @@ public void ConVarChanged_Cvars(Handle convar, const char[] oldValue, const char
 void GetCvars()
 {
 	iMaxSurvivors = hMaxSurvivors.IntValue;
+	iMaxHuman = hMaxHuman.IntValue;
 	bStripBotWeapons = hStripBotWeapons.BoolValue;
 	iDeadBotTime = hDeadBotTime.IntValue;
 	fSpecCheckInterval = hSpecCheckInterval.FloatValue;
@@ -322,7 +325,7 @@ public Action AddBot(int client, int args)
 	if(client == 0)
 		return Plugin_Continue;
 	
-	if(SpawnFakeClient() == true)
+	if(SpawnFakeClient() == true&& TotalSurvivors()<iMaxHuman)
 		PrintToChat(client, "%T", "A surviving Bot was added.", client);
 	else
 		PrintToChat(client, "%T", "Impossible to generate a bot at the moment.", client);
