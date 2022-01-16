@@ -1,0 +1,49 @@
+//
+"Advertisements"
+{
+	"1"
+	{
+		"type"		"S"
+		"text"		"{LIGHTGREEN}[本章节地图]: {GREEN}{CURRENTMAP} \n{LIGHTGREEN}[服务器时间]: {GREEN}{TIME24} - {DATE}"
+	}
+	"2"
+	{
+		"type"		"S"
+		"text"		"{LIGHTGREEN}!zs自杀 !join加入 !buy购买商品 !c修改角色 !tgvote投票修改特感数量"
+	}
+	"3"
+	{
+		"type"		"S"
+		"text"		"{LIGHTGREEN}!team3可以加入特感一方当特感，鉴于大部分战役不会玩坦克，坦克不允许接管"
+	}
+	"4"
+	{
+		"type"		"S"
+		"text"		"{LIGHTGREEN}可以按R传递投掷和药包"
+	}
+	"5"
+	{
+		"type"		"S"
+		"text"		"{LIGHTGREEN}为了游戏体验 本组站役建议游戏时间在300小时"
+	}
+	"6"
+	{
+		"type"		"S"
+		"text"		"{LIGHTGREEN}血量低于40时要考虑跳楼表演了 因为会拖慢队伍推进速度哦"
+	}
+	"7"
+	{
+		"type"		"S"
+		"text"		"{LIGHTGREEN}对着电脑狂按E可以抢电脑的药"
+	}
+	"8"
+	{
+		"type"		"S"
+		"text"		"{LIGHTGREEN}本组服务器都有商店系统 打不过可以输入!buy进行氪金"
+	}
+	"12"
+	{
+		"type"		"S"
+		"text"		"{LIGHTGREEN}尽量不要被胖子喷哦 被喷不但拖节奏还很难帮助队友"
+	}
+}
